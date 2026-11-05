@@ -11,6 +11,11 @@ module.exports = function (object, quantity, minOrderQuantity, availabilityModel
             var productQuantity = quantity ? parseInt(quantity, 10) : minOrderQuantity;
             var availabilityModelLevels = availabilityModel.getAvailabilityLevels(productQuantity);
             var inventoryRecord = availabilityModel.inventoryRecord;
+            availability.inStock = availabilityModelLevels.inStock.value > 0;
+            Object.defineProperty(object, 'inStock', {
+                enumerable: true,
+                value: availability.inStock
+            });
 
             if (inventoryRecord && inventoryRecord.inStockDate) {
                 availability.inStockDate = inventoryRecord.inStockDate.toDateString();

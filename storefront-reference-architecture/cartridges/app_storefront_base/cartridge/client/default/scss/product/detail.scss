@@ -205,3 +205,59 @@ label.availability {
         }
     }
 }
+
+.product-detail .delivery-promise {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 0.75rem;
+    min-height: 4.5rem;
+    aspect-ratio: 904 / 492;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Montserrat, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    color: inherit;
+
+    &[hidden] {
+        display: none;
+    }
+
+    .delivery-promise-message {
+        display: block;
+        width: 100%;
+        font-family: inherit;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-weight: 600;
+    }
+
+    .content-asset,
+    .content-asset * {
+        font-family: Montserrat, "Helvetica Neue", Arial, sans-serif !important;
+        max-width: 100%;
+    }
+
+    .content-asset {
+        width: 100%;
+        display: block;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .product-detail .delivery-promise {
+        margin-top: 0.5rem;
+        min-height: 3.5rem;
+
+        .delivery-promise-message {
+            font-size: 0.875rem;
+        }
+    }
+}

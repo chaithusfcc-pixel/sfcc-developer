@@ -20,6 +20,7 @@ module.exports.render = function (context, modelIn) {
     var component = context.component;
     model.regions = PageRenderHelper.getRegionModelRegistry(component);
     var product = context.content.product;
+    var deliveryPromiseHelper = require('*/cartridge/scripts/helpers/deliveryPromise');
 
     var params = { pid: product.ID };
     var productHelperResult = productHelper.showProductPage(params, request.pageMetaData);
@@ -41,6 +42,7 @@ module.exports.render = function (context, modelIn) {
     model.breadcrumbs = productHelperResult.breadcrumbs;
     model.canonicalUrl = productHelperResult.canonicalUrl;
     model.schemaData = productHelperResult.schemaData;
+    model.deliveryPromise = deliveryPromiseHelper.getPageContext(request.locale);
 
     // instruct 24 hours relative pagecache
     var expires = new Date();

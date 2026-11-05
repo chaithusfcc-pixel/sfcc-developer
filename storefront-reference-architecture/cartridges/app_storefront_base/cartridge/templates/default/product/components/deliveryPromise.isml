@@ -1,0 +1,21 @@
+<div class="delivery-promise"
+    data-pid="${product.id}"
+    data-ready-to-order="${product.readyToOrder}"
+    data-in-stock="${product.inStock}"
+    data-country="${pdict.deliveryPromise.country}"
+    data-site="${pdict.deliveryPromise.site}"
+    data-locale="${pdict.deliveryPromise.locale}"
+    data-url="${pdict.deliveryPromise.url}"
+    data-loading="${Resource.msg('deliverypromise.loading', 'product', null)}"
+    data-fallback="${Resource.msg('deliverypromise.unavailable', 'product', null)}"
+    data-select-variant="${Resource.msg('deliverypromise.selectvariant', 'product', null)}"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    aria-busy="false">
+    <isif condition="${product.readyToOrder && product.inStock}">
+        <span class="delivery-promise-message">${Resource.msg('deliverypromise.loading', 'product', null)}</span>
+    <iselseif condition="${product.variationAttributes && product.variationAttributes.length > 0}">
+        <span class="delivery-promise-message">${Resource.msg('deliverypromise.selectvariant', 'product', null)}</span>
+    </isif>
+</div>

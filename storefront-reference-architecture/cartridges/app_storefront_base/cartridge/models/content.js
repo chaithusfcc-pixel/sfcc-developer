@@ -8,13 +8,13 @@
  * @constructor
  */
 function content(contentValue, renderingTemplate) {
-    if (!contentValue.online) {
+    var usedRenderingTemplate = renderingTemplate || 'components/content/contentAssetInc';
+
+    if (!contentValue || !contentValue.online) {
         return null;
     }
 
-    var usedRenderingTemplate = renderingTemplate || 'components/content/contentAssetInc';
-
-    this.body = (contentValue && contentValue.custom && contentValue.custom.body) || null;
+    this.body = (contentValue.custom && contentValue.custom.body) || null;
     this.UUID = contentValue.UUID;
     this.ID = contentValue.ID;
     this.name = contentValue.name;

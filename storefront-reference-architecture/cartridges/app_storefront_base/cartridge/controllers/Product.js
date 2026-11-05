@@ -34,6 +34,7 @@ var pageMetaData = require('*/cartridge/scripts/middleware/pageMetaData');
   */
 server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, function (req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
+    var deliveryPromiseHelper = require('*/cartridge/scripts/helpers/deliveryPromise');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
     var productType = showProductPageHelperResult.product.productType;
     if (!showProductPageHelperResult.product.online && productType !== 'set' && productType !== 'bundle') {
@@ -56,7 +57,8 @@ server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, 
                 resources: showProductPageHelperResult.resources,
                 breadcrumbs: showProductPageHelperResult.breadcrumbs,
                 canonicalUrl: showProductPageHelperResult.canonicalUrl,
-                schemaData: showProductPageHelperResult.schemaData
+                schemaData: showProductPageHelperResult.schemaData,
+                deliveryPromise: deliveryPromiseHelper.getPageContext(req.locale)
             });
         }
     }
@@ -76,6 +78,7 @@ server.get('Show', cache.applyPromotionSensitiveCache, consentTracking.consent, 
  */
 server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function (req, res, next) {
     var productHelper = require('*/cartridge/scripts/helpers/productHelpers');
+    var deliveryPromiseHelper = require('*/cartridge/scripts/helpers/deliveryPromise');
     var showProductPageHelperResult = productHelper.showProductPage(req.querystring, req.pageMetaData);
     if (!showProductPageHelperResult.product.online) {
         res.setStatusCode(404);
@@ -85,9 +88,43 @@ server.get('ShowInCategory', cache.applyPromotionSensitiveCache, function (req, 
             product: showProductPageHelperResult.product,
             addToCartUrl: showProductPageHelperResult.addToCartUrl,
             resources: showProductPageHelperResult.resources,
-            breadcrumbs: showProductPageHelperResult.breadcrumbs
+            breadcrumbs: showProductPageHelperResult.breadcrumbs,
+            deliveryPromise: deliveryPromiseHelper.getPageContext(req.locale)
         });
     }
+    next();
+});
+
+/**
+ * Product-DeliveryPromise : Looks up and renders the delivery promise for an orderable SKU
+ * @name Base/Product-DeliveryPromise
+ * @function
+ * @memberof Product
+ * @param {querystringparameter} - sku - Product SKU
+ * @param {querystringparameter} - country - Two-letter country code
+ * @returns {json}
+ * @serverfunction get
+ */
+server.get('DeliveryPromise', function (req, res, next) {
+    var Logger = require('dw/system/Logger');
+    var deliveryPromiseHelper = require('*/cartridge/scripts/helpers/deliveryPromise');
+    var sku = req.querystring.sku;
+    var country = req.querystring.country;
+
+    try {
+        var promise = deliveryPromiseHelper.getPromise(sku, country);
+        if (promise) {
+            res.json(promise);
+        } else {
+            res.setStatusCode(503);
+            res.json({ error: true });
+        }
+    } catch (error) {
+        Logger.error('Delivery promise lookup failed for SKU {0}: {1}', sku, error.message);
+        res.setStatusCode(503);
+        res.json({ error: true });
+    }
+
     next();
 });
 
@@ -109,7 +146,6 @@ server.get('Variation', function (req, res, next) {
     var priceHelper = require('*/cartridge/scripts/helpers/pricing');
     var ProductFactory = require('*/cartridge/scripts/factories/product');
     var renderTemplateHelper = require('*/cartridge/scripts/renderTemplateHelper');
-
     var params = req.querystring;
     var product = ProductFactory.get(params);
 

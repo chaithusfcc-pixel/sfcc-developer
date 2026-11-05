@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://www.demandware.com/xml/impex/services/2014-09-26">
+    <service-credential service-credential-id="delivery.promise.credentials">
+        <url>https://delivery.free.beeceptor.com/fulfillment</url>
+        <user-id>demo</user-id>
+        <password encrypted="true" encryption-type="common.export">/sB8gGp9wD+a+NgEjwh3mZEPz7oAgl2Os/bMsD2aNTGi3eGno1OtrZBRYa8T6vz8</password>
+    </service-credential>
+
+    <service-profile service-profile-id="delivery.profile">
+        <timeout-millis>1800</timeout-millis>
+        <rate-limit-enabled>false</rate-limit-enabled>
+        <rate-limit-calls>0</rate-limit-calls>
+        <rate-limit-millis>0</rate-limit-millis>
+        <cb-enabled>true</cb-enabled>
+        <cb-calls>0</cb-calls>
+        <cb-millis>0</cb-millis>
+    </service-profile>
+
+    <service service-id="delivery.promise">
+        <service-type>HTTP</service-type>
+        <enabled>true</enabled>
+        <log-prefix>delivery-promise</log-prefix>
+        <comm-log-enabled>true</comm-log-enabled>
+        <force-prd-enabled>false</force-prd-enabled>
+        <mock-mode-enabled>false</mock-mode-enabled>
+        <profile-id>delivery.profile</profile-id>
+        <credential-id>delivery.promise.credentials</credential-id>
+    </service>
+
+</services>

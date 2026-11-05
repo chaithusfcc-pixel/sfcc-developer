@@ -142,6 +142,11 @@ To workaround this:
 -   In codecept.conf.js, update the Webdriver helper to point to `port: 4444,`. This will [force webdriverio to use your safaridriver instance for every test.](https://webdriver.io/docs/driverbinaries#safaridriver)
 -   Start the tests: `npm run test:acceptance:smoke -- --profile=safari`
 
+# Delivery Promise Feature
+
+Technical configuration and Business Manager authoring instructions are in the
+[Delivery Promise guide](./DELIVERY-PROMISE.md).
+
 # [Contributing to SFRA](./CONTRIBUTING.md)
 
 # Page Designer Components for Storefront Reference Architecture

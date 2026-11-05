@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="deliveryPromiseEnabled">
+                <display-name xml:lang="x-default">Enable PDP delivery promise</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="deliveryPromiseMockEnabled">
+                <display-name xml:lang="x-default">Use mocked delivery promise response</display-name>
+                <description xml:lang="x-default">When enabled, uses a deterministic mock tier instead of calling the external service.</description>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="delivery-promise">
+                <display-name xml:lang="x-default">Delivery promise</display-name>
+                <attribute attribute-id="deliveryPromiseEnabled"/>
+                <attribute attribute-id="deliveryPromiseMockEnabled"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>

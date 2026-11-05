@@ -100,6 +100,11 @@
                     <!-- Product Availability -->
                     <isinclude template="product/components/productAvailability" />
 
+                    <!-- Delivery promise -->
+                    <isif condition="${pdict.deliveryPromise && pdict.deliveryPromise.enabled}">
+                        <isinclude template="product/components/deliveryPromise" />
+                    </isif>
+
                     <!-- Applicable Promotions -->
                     <div class="row">
                         <div class="col-12 promotions">

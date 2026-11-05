@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.demandware.com/xml/impex/library/2006-10-31">
+    <content content-id="delivery_promise_same_day">
+        <display-name xml:lang="x-default">Delivery promise - same day</display-name>
+        <description xml:lang="x-default">Same-day delivery promise PDP content</description>
+        <online-flag>true</online-flag>
+        <searchable-flag>false</searchable-flag>
+        <custom-attributes>
+            <custom-attribute attribute-id="customCSSFile">images/same-day-delivery-block.png</custom-attribute>
+        </custom-attributes>
+    </content>
+    <content content-id="delivery_promise_next_day">
+        <display-name xml:lang="x-default">Delivery promise - next day</display-name>
+        <description xml:lang="x-default">Next-day delivery promise PDP content</description>
+        <online-flag>true</online-flag>
+        <searchable-flag>false</searchable-flag>
+        <custom-attributes>
+            <custom-attribute attribute-id="body" xml:lang="x-default">&lt;div class="delivery-promise__content"&gt;&lt;h3&gt;Next-day delivery&lt;/h3&gt;&lt;p&gt;Arrives tomorrow if you order today&lt;/p&gt;&lt;/div&gt;</custom-attribute>
+        </custom-attributes>
+    </content>
+    <content content-id="delivery_promise_standard">
+        <display-name xml:lang="x-default">Delivery promise - standard</display-name>
+        <description xml:lang="x-default">Standard delivery promise PDP content</description>
+        <online-flag>true</online-flag>
+        <searchable-flag>false</searchable-flag>
+        <custom-attributes>
+            <custom-attribute attribute-id="body" xml:lang="x-default">&lt;div class="delivery-promise__content"&gt;&lt;h3&gt;Standard delivery&lt;/h3&gt;&lt;p&gt;Delivered in 3-5 business days&lt;/p&gt;&lt;/div&gt;</custom-attribute>
+        </custom-attributes>
+    </content>
+</library>
