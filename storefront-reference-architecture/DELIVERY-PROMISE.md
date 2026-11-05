@@ -90,3 +90,67 @@ Use the RefArch product page below to verify variant selection and the delivery
 promise block:
 
 [Extend Tab Straight Leg Pant — RefArch](https://bdcl-001.my.commercecloud.salesforce.com/s/RefArch/extend-tab-straight-leg-pant/25518009M.html?lang=en_US)
+
+## Test steps
+
+### Prepare Business Manager
+
+1. Confirm the site has **Enable PDP delivery promise** enabled.
+2. For a live-service test, disable **Use mocked delivery promise response** and
+   confirm the `delivery.promise` service and credentials are configured.
+   Alternatively, enable the mock preference for a test that does not call the
+   external service.
+3. Confirm the site-assigned content library has the three tier assets online.
+   For each asset, verify its body or fallback `customCSSFile` image is present.
+4. Open the PDP validation example in a fresh browser tab. Use DevTools Network
+   and Console; clear session storage if you need to observe a fresh request
+   rather than a cached result.
+
+### Verify variant-to-tier rendering
+
+1. Before selecting a size, confirm the availability area asks for options and
+   the delivery block prompts the shopper to select available options. No
+   fulfilment request should be sent yet.
+2. Select an available size and confirm the variation request completes. If the
+   variant is in stock, verify a separate `Product-DeliveryPromise` request
+   includes that selected variant's `sku` and the locale country (`US` for this
+   page).
+3. Confirm the block below availability shows content for the returned tier:
+   `SAME_DAY`, `NEXT_DAY`, or `STANDARD`. Compare the displayed asset with the
+   matching content ID in the tier mapping table above.
+4. Repeat with sizes that return the other tiers. On this sample PDP, sizes 4,
+   6, and 10 were observed returning NEXT_DAY, SAME_DAY, and STANDARD,
+   respectively; inventory or service mappings may change.
+5. Select an unavailable or non-orderable variant, if one is available, and
+   verify no delivery content is presented as an in-stock promise.
+
+### Verify caching and resilience
+
+1. Select a variant, then select another variant and return to the first one.
+   Within the 10-minute success-cache period, the first variant's content should
+   be restored without another fulfilment request.
+2. For a failure test, use a test endpoint or controlled service stub that
+   delays for 3–5 seconds or returns HTTP 500. Do not introduce the delay in the
+   production service.
+3. Confirm the variation request and PDP remain responsive while the delivery
+   request is slow. Once the delivery request fails or times out, verify the
+   localized fallback appears and the PDP remains usable.
+4. Repeat the same failing variant within 30 seconds and verify the failure
+   cache prevents an immediate repeat service call.
+
+### Verify responsive, accessible, and flag behavior
+
+1. Repeat variant selection at desktop and mobile viewport widths. Confirm the
+   block and image fit their container with no horizontal scrolling.
+2. Inspect the block: it should be below availability and expose `role="status"`,
+   `aria-live="polite"`, and an accurate `aria-busy` value while loading.
+   Confirm image fallback alt text describes the delivery tier.
+3. When testing text-based asset bodies, confirm their computed font is
+   Montserrat. Image-baked lettering cannot be verified or restyled as a
+   storefront webfont.
+4. Disable **Enable PDP delivery promise**, reload the PDP, and confirm the
+   block is absent and no `Product-DeliveryPromise` request is made. Re-enable
+   the preference after the test.
+5. Check the browser console for JavaScript errors and the Network panel for
+   unexpected failures. Ignore unrelated baseline issues only after verifying
+   they are outside the delivery-promise feature.
